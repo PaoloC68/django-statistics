@@ -1,4 +1,4 @@
-The offial repository for ``django-statistics`` is at https://github.com/denz/django-statistics.
+The official repository for ``django-statistics`` is at https://github.com/denz/django-statistics.
 
 This is an attempt to improve the application
 
@@ -6,7 +6,7 @@ This is an attempt to improve the application
 Configuration:
 
 in settings.py for untrack some urls:
-STATISTICS_UNTRACK_URLS = ["/favicon","/dajax","/jsi18n","/captcha","/static/","/admin/","/robots.txt/","/sso/"]
+STATISTICS_UNTRACK_URLS = ["/favicon","/dajax","/jsi18n" ..... ]
 
 INSTALLED_APP += (
 	...
