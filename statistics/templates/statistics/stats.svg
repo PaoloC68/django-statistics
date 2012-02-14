@@ -1,0 +1,6 @@
+{% extends 'statistics/base.svg' %}
+{% block content %}
+{% for step in steps %}
+    <rect fill='blue' x="{{step.1}}" y='0' width='5' height='{{step.2}}' stroke='red'/>
+{% endfor %}
+{% endblock %}

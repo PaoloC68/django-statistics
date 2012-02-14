@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+{% load statistics_tags %}
+{% get_visit_history total %}
+
+{% regroup total|dictsort:"ip_address" by ip_address as list_ip %}
+{% for i in list_ip %}
+<b>{{ i.grouper }}</b><br/>
+{% for y in i.list %}
+{% if y.url == "/favicon.ico" or y.url == "/jsi18n/" or "admin" in y.url %}
+{% else %}
+{% if y.url == "/" %}
+<span>/home/</span>
+{% else %}
+<span>{{ y.url }}</span>{#<small>({{ y.created }})</small>#}
+{% endif %}
+{% endif %}
+{% endfor %}
+<br/><br/>
+{% endfor %}
+
+{% endblock %}

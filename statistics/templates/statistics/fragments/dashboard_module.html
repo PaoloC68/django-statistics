@@ -1,0 +1,11 @@
+{% extends "grappelli/dashboard/module.html" %}
+{% load i18n %}
+{% load url from future %}
+{% block module_content %}
+{% spaceless %}
+    {% for stat_url in module.children %}
+        <div class="row">
+            <a href="{% url stat_url %}"><img src="{% url stat_url %}" height='100px'/></a>
+        </div>    {% endfor %}
+    {% endspaceless %}
+{% endblock %}

@@ -1,0 +1,4 @@
+<svg xmlns='http://www.w3.org/2000/svg'
+      width="{% if width %}{{width}}{%else%}1024{%endif%}px" height="{% if height %}{{height}}{%else%}768{%endif%}px" version="1.1"
+      xmlns:xlink="http://www.w3.org/1999/xlink">{% block content %}{% endblock %}
+</svg>
