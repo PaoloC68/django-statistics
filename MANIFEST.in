@@ -1,0 +1,4 @@
+include README.rst LICENSE AUTHORS CHANGES
+recursive-include statistics/ *.*
+recursive-exclude statistics/ .*.swp *.pyc
+recursive-exclude demo/ *.*

@@ -1,0 +1,5 @@
+django-statistics (0.1-servabit1) unstable; urgency=low
+
+  * Initial release. (Closes: #XXXXXX)
+
+ -- Matteo Atti <matteo.atti@servabit.it>  Fri, 02 Sep 2011 11:53:35 +0200

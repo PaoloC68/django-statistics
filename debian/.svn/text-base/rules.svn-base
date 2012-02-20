@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+include /usr/share/python/python.mk
+
+
+#override_dh_install:
+#	dh_install
+#	cp -rf $(CURDIR)/visitor/templatetags $(CURDIR)/debian/python-django-visitor$(py_libdir_sh)/visitor/
+
+%:
+	dh $@
+
+
