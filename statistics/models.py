@@ -75,9 +75,9 @@ class Months(models.Model):
         return self.nome    
 
 class StatisticsMonthYear(models.Model):
-    anno = models.IntegerField(max_length=25)
+    anno = models.IntegerField(max_length=255)
     mese = models.ForeignKey(Months)
-    address = models.CharField(max_length=64)
+    address = models.CharField(max_length=255)
     number = models.IntegerField(max_length=6000)
     
     class Meta:
@@ -89,7 +89,7 @@ class StatisticsDates(models.Model):
     year = models.IntegerField(max_length=16)
     month = models.IntegerField(max_length=16)
     day = models.IntegerField(max_length=16)
-    address = models.CharField(max_length=64) #site + url
+    address = models.CharField(max_length=255) #site + url
     total_access_year = models.IntegerField(max_length=6000)
     total_access_month = models.IntegerField(max_length=6000)
     total_access_day = models.IntegerField(max_length=6000)
