@@ -67,7 +67,7 @@ class VisitAdmin(admin.ModelAdmin):
     list_display = ['site', 'url', 'username', 'ip_address', 'user_agent', 'geoip_data', 'created']
     list_filter = ('username', 'created','site')
     search_fields = ['site', 'url', 'username', 'ip_address', 'user_agent']
-    actions = [clean_all_not_logged_users,clean_all_past_visits]
+    actions = [clean_all_not_logged_users,clean_all_past_visits,export_as_csv_action("CSV Export", fields=['site','url','username','ip_address','created'])]
 
 class StatisticsDatesAdmin(admin.ModelAdmin):
     list_display = ['address','total_access_day','total_access_month','total_access_year','year']
