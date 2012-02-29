@@ -2,6 +2,11 @@ The official repository for ``django-statistics`` is at https://github.com/denz/
 
 This is an attempt to improve the application
 
+Dependencies:
+
+_ django-tracking
+_ django-visitors
+_ python-geoip libc6 libgeoip1
 
 Configuration:
 
