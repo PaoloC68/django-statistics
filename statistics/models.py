@@ -6,8 +6,14 @@ from django.db.models.signals import post_init, post_save
 from django.contrib.sites.models import Site
 from django.conf import settings
 import datetime
-
 import logging
+try:
+    import GeoIP
+except Exception, e:
+    logging.error("Install python-geoip for tracking GeoIP Data -- %s", e)
+    pass
+
+
 log = logging.getLogger('statistics.models')
 
 untrack_list = ["/favicon","/dajax","/jsi18n","/captcha","/static/","/admin/","/robots.txt/","/sso/"]
@@ -38,6 +44,11 @@ def log_visit(visitor, stored_fields=['url',
     ldata = list(data)
     ldata.append(('site', Site.objects.get_current()))
     ldata.append(('username', user))
+    try:
+        gi = GeoIP.open("/usr/share/pyshared/statistics/GeoLiteCity.dat",GeoIP.GEOIP_STANDARD)
+        ldata.append(('geoip_data', gi.record_by_addr(visitor.ip_address)))
+    except Exception, e:
+        logging.error(e)
     data = tuple(ldata)
     
     save_to = True
@@ -125,7 +136,7 @@ def log_statistic(visit, stored_fields=[]):
         #Visit.objects.get(id=visit.id).delete()
         return
     if len(StatisticsDates.objects.filter(year=int(year), month=int(month), day=int(day), address=address)) > 0:
-        logging.error("Tutto gia presente, aumento il conto totale")
+        #logging.error("Tutto gia presente, aumento il conto totale")
         statistic = StatisticsDates.objects.get(year=int(year), month=int(month), day=int(day), address=address)
         statistic.total_access_year += 1
         statistic.total_access_month += 1
@@ -136,19 +147,19 @@ def log_statistic(visit, stored_fields=[]):
             stat = StatisticsMonthYear.objects.get(address=address, anno=year, mese=Months.objects.get(numero=int(month)))
             stat.number += 1
             stat.save()
-            logging.error("StatisticsMonthYear Esistente")
+            #logging.error("StatisticsMonthYear Esistente")
         except:
             stat = StatisticsMonthYear(address=address, anno=year, mese=Months.objects.get(numero=int(month)), number=1)
             stat.save()
-            logging.error("StatisticsMonthYear non Esistente, ricreato")
+            #logging.error("StatisticsMonthYear non Esistente, ricreato")
         #Visit.objects.get(id=visit.id).delete()
         return
     else:
-        logging.error("qualcosa di nuovo, da ragionare a fondo")
+        #logging.error("qualcosa di nuovo, da ragionare a fondo")
         stat_day = StatisticsDates.objects.get(address=address, year=int(year))
         # se nuovo mese, cambio il giorno e il mese ed azzero il day, il month ma non year e total
         if stat_day.month != month:
-            logging.error("nuovo mese")
+            #logging.error("nuovo mese")
 	    stat_day.month = month
             stat_day.total_access_day = 1
             stat_day.total_access_month = 1
@@ -167,7 +178,7 @@ def log_statistic(visit, stored_fields=[]):
             return
         # se nuovo giorno, cambio il giorno e azzero il conto del day ma non quello di month, year e total
         if stat_day.day != day:
-            logging.error("nuovo giorno")
+            #logging.error("nuovo giorno")
             stat_day.day = day
             stat_day.total_access_day = 1
             stat_day.total_access_month += 1
