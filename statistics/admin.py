@@ -78,6 +78,7 @@ class StatisticsMonthYearInline(admin.TabularInline):
 
 class StatisticsMonthYearAdmin(admin.ModelAdmin):
     list_display = ['anno','mese','address','number']
+    search_fields = ['mese',]
     actions = [export_as_csv_action("CSV Export", fields=['anno','mese','address','number'])]
 
 class MonthsAdmin(admin.ModelAdmin):
