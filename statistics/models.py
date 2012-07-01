@@ -45,7 +45,9 @@ def log_visit(visitor, stored_fields=['url',
     ldata.append(('site', Site.objects.get_current()))
     ldata.append(('username', user))
     try:
-        gi = GeoIP.open("/usr/share/pyshared/statistics/GeoLiteCity.dat",GeoIP.GEOIP_STANDARD)
+        geoip_file_default = "/usr/share/pyshared/statistics/GeoLiteCity.dat"
+        geoip_file = getattr(settings, 'GEO_CITY_LIGHT_FILE', geoip_file_default)
+        gi = GeoIP.open(geoip_file,GeoIP.GEOIP_STANDARD)
         ldata.append(('geoip_data', gi.record_by_addr(visitor.ip_address)))
     except Exception, e:
         logging.error(e)
@@ -129,7 +131,7 @@ def log_statistic(visit, stored_fields=[]):
         #FOR STATISTICS MONTH YEAR
         newstat = StatisticsMonthYear()
         newstat.anno = year
-        newstat.mese = Months.objects.get(numero=month)
+        newstat.mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
         newstat.address = address
         newstat.number = 1
         newstat.save()
@@ -143,13 +145,14 @@ def log_statistic(visit, stored_fields=[]):
         statistic.total_access_day += 1
         statistic.save()
         #FOR STATISTICS MONTH YEAR
+        mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
         try:
-            stat = StatisticsMonthYear.objects.get(address=address, anno=year, mese=Months.objects.get(numero=int(month)))
+            stat = StatisticsMonthYear.objects.get(address=address, anno=year, mese=mese)
             stat.number += 1
             stat.save()
             #logging.error("StatisticsMonthYear Esistente")
         except:
-            stat = StatisticsMonthYear(address=address, anno=year, mese=Months.objects.get(numero=int(month)), number=1)
+            stat = StatisticsMonthYear(address=address, anno=year, mese=mese, number=1)
             stat.save()
             #logging.error("StatisticsMonthYear non Esistente, ricreato")
         #Visit.objects.get(id=visit.id).delete()
@@ -169,7 +172,7 @@ def log_statistic(visit, stored_fields=[]):
             #FOR STATISTICS MONTH YEAR New Month
             stat = StatisticsMonthYear()
             stat.anno = int(year)
-            stat.mese = Months.objects.get(numero=int(month))
+            stat.mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
             stat.address = address
             stat.number = 1
             stat.save()
@@ -184,7 +187,8 @@ def log_statistic(visit, stored_fields=[]):
             stat_day.total_access_month += 1
             stat_day.total_access_year += 1
             stat_day.save()
-            stat = StatisticsMonthYear.objects.get(address=address, anno=year, mese=Months.objects.get(numero=int(month)))
+            mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
+            stat = StatisticsMonthYear.objects.get(address=address, anno=year, mese=mese)
             stat.number += 1
             stat.save()
             #Visit.objects.get(id=visit.id).delete()
