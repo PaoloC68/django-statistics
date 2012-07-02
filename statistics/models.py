@@ -131,7 +131,7 @@ def log_statistic(visit, stored_fields=[]):
         #FOR STATISTICS MONTH YEAR
         newstat = StatisticsMonthYear()
         newstat.anno = year
-        newstat.mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
+        newstat.mese, created = Months.objects.get_or_create(numero=int(month), defaults={'nome': datetime.datetime.now().strftime('%B')})
         newstat.address = address
         newstat.number = 1
         newstat.save()
@@ -145,7 +145,7 @@ def log_statistic(visit, stored_fields=[]):
         statistic.total_access_day += 1
         statistic.save()
         #FOR STATISTICS MONTH YEAR
-        mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
+        mese, created = Months.objects.get_or_create(numero=int(month), defaults={'nome': datetime.datetime.now().strftime('%B')})
         try:
             stat = StatisticsMonthYear.objects.get(address=address, anno=year, mese=mese)
             stat.number += 1
@@ -172,7 +172,7 @@ def log_statistic(visit, stored_fields=[]):
             #FOR STATISTICS MONTH YEAR New Month
             stat = StatisticsMonthYear()
             stat.anno = int(year)
-            stat.mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
+            stat.mese, created = Months.objects.get_or_create(numero=int(month), defaults={'nome': datetime.datetime.now().strftime('%B')})
             stat.address = address
             stat.number = 1
             stat.save()
@@ -187,7 +187,7 @@ def log_statistic(visit, stored_fields=[]):
             stat_day.total_access_month += 1
             stat_day.total_access_year += 1
             stat_day.save()
-            mese, created = Months.objects.get_or_create(numero=int(month),nome=datetime.datetime.now().strftime('%B'))
+            mese, created = Months.objects.get_or_create(numero=int(month), defaults={'nome': datetime.datetime.now().strftime('%B')})
             stat = StatisticsMonthYear.objects.get(address=address, anno=year, mese=mese)
             stat.number += 1
             stat.save()
